@@ -1,4 +1,4 @@
-package onboarding.crud.model;
+package onboarding.crud.entity;
 
 import jakarta.persistence.*;
 
