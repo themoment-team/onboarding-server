@@ -1,7 +1,6 @@
 package onboarding.crud.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +9,15 @@ import lombok.Setter;
 @Setter
 public class Post {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
+
+    @Column(name = "content", nullable = false, length = 10000)
+    private String content;
+
+    @Column(name = "views", nullable = false)
+    private Integer views;
 }
