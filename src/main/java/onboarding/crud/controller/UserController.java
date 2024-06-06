@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 
 public class UserController{
+
     @Autowired
     private UserService userService;
 
@@ -36,6 +38,22 @@ public class UserController{
             return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+        String name = loginData.get("name");
+        String password = loginData.get("password");
+        try {
+            User user = userService.loginUser(name, password);
+            if (user != null) {
+                return ResponseEntity.ok("로그인이 성공적으로 완료되었습니다.");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 유효한 사용자 이름과 비밀번호를 입력하세요.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그인 중 오류가 발생했습니다.");
         }
     }
 }
