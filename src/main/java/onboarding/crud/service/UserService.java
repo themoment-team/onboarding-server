@@ -8,5 +8,4 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserService {
     public UserRepository userRepository;
-
 }
