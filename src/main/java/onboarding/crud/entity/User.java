@@ -3,6 +3,7 @@ package onboarding.crud.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok Data;
 
 @Entity
 @Table(name = "users")
@@ -19,5 +20,8 @@ public class User {
 
     @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name="email", unique = true, nullable = false)
+    private String email;
 
 }
