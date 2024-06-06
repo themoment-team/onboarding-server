@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/posts")
@@ -31,6 +32,34 @@ public class PostController {
             return ResponseEntity.ok(savedPost);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("게시글 등록 중 오류가 발생했습니다.");
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getPost(@PathVariable Long id) {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            return ResponseEntity.ok(post.get());
+        } else {
+            return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+        }
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id, @RequestBody Post updatedPost) {
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            Post existingPost = post.get();
+            if (updatedPost.getTitle() != null) {
+                existingPost.setTitle(updatedPost.getTitle());
+            }
+            if (updatedPost.getContent() != null) {
+                existingPost.setContent(updatedPost.getContent());
+            }
+            Post savedPost = postRepository.save(existingPost);
+            return ResponseEntity.ok(savedPost);
+        } else {
+            return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
     }
 }
