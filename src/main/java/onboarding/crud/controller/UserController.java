@@ -1,6 +1,7 @@
 package onboarding.crud.controller;
 
 
+import jakarta.servlet.http.HttpSession;
 import onboarding.crud.entity.User;
 import onboarding.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,16 @@ public class UserController{
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그인 중 오류가 발생했습니다.");
+        }
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(HttpSession session) {
+        try {
+            session.invalidate(); // 무효화 세션
+            return ResponseEntity.ok("로그아웃이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그아웃 중 오류가 발생했습니다.");
         }
     }
 }
