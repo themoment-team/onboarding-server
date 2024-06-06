@@ -5,17 +5,15 @@ import onboarding.crud.entity.User;
 import onboarding.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 
 public class UserController{
     @Autowired
@@ -29,5 +27,15 @@ public class UserController{
         else throw new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "User not found"
         );
+    }
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        try {
+            userService.registerUser(user);
+            return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 오류가 발생했습니다.");
+        }
     }
 }
