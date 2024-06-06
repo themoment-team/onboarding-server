@@ -1,23 +1,24 @@
 package onboarding.crud.service;
 
 import lombok.AllArgsConstructor;
+import onboarding.crud.entity.User;
 import onboarding.crud.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class UserService {
     public UserRepository userRepository;
 
-    public Optional<User> getUserById(long userId) {
-        return userRepository.findById(userId);
+    public Optional<User> getUserByName(String name) {
+        return userRepository.findByName(name);
     }
 
-    public User fetchUserFromExternalApi(long userId) {
-        String apiUrl = "http://example.com/api/user/" + userId;
-        RestTemplate restTemplate = new RestTemplate();
-        ApiResponse response = restTemplate.getForObject(apiUrl, ApiResponse.class);
-        return response != null && "success".equals(response.getStatus()) ? response.getData().getUser() : null;
+    public Optional<User> getUserById(long userId) {
+        return userRepository.findById(userId);
     }
 }
 
