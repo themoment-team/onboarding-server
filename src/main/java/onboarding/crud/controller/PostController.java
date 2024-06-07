@@ -1,5 +1,7 @@
 package onboarding.crud.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import onboarding.crud.entity.Post;
 import onboarding.crud.repository.PostRepository;
 import onboarding.crud.service.PostService;
@@ -41,6 +43,26 @@ public class PostController {
         Optional<Post> post = postRepository.findById(id);
         if (post.isPresent()) {
             return ResponseEntity.ok(post.get());
+        } else {
+            return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+        }
+    }
+
+    @PatchMapping("/{id}/like")
+    public ResponseEntity<?> likePost(@PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object _userId = session.getAttribute("userId");
+        if(_userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        String userId = _userId.toString();
+
+        Optional<Post> post = postRepository.findById(id);
+        if (post.isPresent()) {
+            Post existingPost = post.get();
+            existingPost.setLikes(existingPost.getLikes() + 1);
+            Post savedPost = postRepository.save(existingPost);
+            return ResponseEntity.ok(savedPost);
         } else {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
