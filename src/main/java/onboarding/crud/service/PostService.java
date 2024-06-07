@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import onboarding.crud.entity.Post;
 import onboarding.crud.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,11 +32,7 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public void deletePost(Long id) throws Exception {
-        if (postRepository.existsById(id)) {
-            postRepository.deleteById(id);
-        } else {
-            throw new Exception("Post not found");
-        }
+    public void deletePost(Long id) throws EmptyResultDataAccessException {
+        postRepository.deleteById(id);
     }
 }
