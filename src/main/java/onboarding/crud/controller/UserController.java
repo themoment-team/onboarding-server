@@ -28,22 +28,23 @@ public class UserController{
         if(userOptional.isPresent())
             return userOptional.get();
         else throw new ResponseStatusException(
-                HttpStatus.NOT_FOUND, "User not found"
+            HttpStatus.NOT_FOUND, "User not found"
         );
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> registerUser(@RequestBody User user) {
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
         try {
-            userService.registerUser(user);
-            return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
+            return ResponseEntity.ok(userService.registerUser(user));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("회원가입 중 오류가 발생했습니다.");
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 중 오류가 발생했습니다."
+            );
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+    public ResponseEntity<String> loginUser(@RequestBody Map<String, String> loginData) {
 
         try {
             String name = loginData.get("name");
@@ -63,7 +64,7 @@ public class UserController{
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logoutUser(HttpSession session) {
+    public ResponseEntity<String> logoutUser(HttpSession session) {
         try {
             session.invalidate(); // 무효화 세션
             return ResponseEntity.ok("로그아웃이 성공적으로 완료되었습니다.");
@@ -73,7 +74,7 @@ public class UserController{
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
         try {
             userService.deleteUser(userId);
             return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
