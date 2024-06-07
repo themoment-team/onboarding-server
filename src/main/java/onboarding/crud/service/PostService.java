@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import onboarding.crud.entity.Post;
 import onboarding.crud.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +31,29 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public void deletePost(Long id) throws EmptyResultDataAccessException {
-        postRepository.deleteById(id);
+    public boolean deletePost(Long id) {
+        if(postRepository.existsById(id)){
+            postRepository.deleteById(id);
+            return true;
+        }else {
+            return false;
+        }
+    }
+
+    public boolean modifyPost(Long id, Post newPost) {
+        Optional<Post> oldPost = postRepository.findById(id);
+        if (oldPost.isPresent()) {
+            Post updatedPost = oldPost.get();
+            if (newPost.getTitle() != null) {
+                updatedPost.setTitle(newPost.getTitle());
+            }
+            if (newPost.getContent() != null) {
+                updatedPost.setContent(newPost.getContent());
+            }
+            postRepository.save(updatedPost);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
