@@ -45,21 +45,21 @@ public class UserController{
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
 
+        String name;
+        String password;
         try {
-            String name = loginData.get("name");
-            String password = loginData.get("password");
-            Optional<User> user = userService.loginUser(name, password);
-            if (user.isPresent()) {
-                return ResponseEntity.ok("로그인이 성공적으로 완료되었습니다.");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 유효한 사용자 이름과 비밀번호를 입력하세요.");
-            }
+            name = loginData.get("name");
+            password = loginData.get("password");
         } catch (Exception e) {
-            if(e instanceof NullPointerException || e instanceof ClassCastException)
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청 정보가 형식에 맞지 않습니다.");
-            else
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그인 중 오류가 발생했습니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청 정보가 형식에 맞지 않습니다.");
         }
+
+        Optional<User> user = userService.loginUser(name, password);
+        if(user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다.");
+        }
+        //todo: 세션에 로그인 정보 저장
+        return ResponseEntity.ok("로그인이 성공적으로 완료되었습니다.");
     }
 
     @PostMapping("/logout")
