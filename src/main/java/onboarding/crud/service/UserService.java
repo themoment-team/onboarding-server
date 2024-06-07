@@ -32,11 +32,7 @@ public class UserService {
     }
 
     public void deleteUser(Long userId) throws Exception {
-        if (userRepository.existsById(userId)) {
-            userRepository.deleteById(userId);
-        } else {
-            throw new Exception("User not found");
-        }
+        userRepository.deleteById(userId);
     }
 }
 
