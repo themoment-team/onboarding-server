@@ -27,8 +27,8 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User loginUser(String name, String password) {
-        return userRepository.findBynameAndPassword(name, password);
+    public Optional<User> loginUser(String name, String password) {
+        return userRepository.findByNameAndPassword(name, password);
     }
 
     public void deleteUser(Long userId) throws Exception {
