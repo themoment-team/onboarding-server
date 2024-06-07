@@ -4,6 +4,7 @@ import onboarding.crud.entity.Post;
 import onboarding.crud.repository.PostRepository;
 import onboarding.crud.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,6 +61,16 @@ public class PostController {
             return ResponseEntity.ok(savedPost);
         } else {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable Long id) {
+        try {
+            postService.deletePost(id);
+            return ResponseEntity.ok("게시글 삭제가 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("게시글 삭제 중 오류가 발생했습니다: " + e.getMessage());
         }
     }
 }

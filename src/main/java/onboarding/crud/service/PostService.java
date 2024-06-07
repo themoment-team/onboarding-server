@@ -29,4 +29,12 @@ public class PostService {
     public List<Post> getAllPosts() {
         return postRepository.findAll();
     }
+
+    public void deletePost(Long id) throws Exception {
+        if (postRepository.existsById(id)) {
+            postRepository.deleteById(id);
+        } else {
+            throw new Exception("Post not found");
+        }
+    }
 }
