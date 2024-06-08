@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -80,12 +81,10 @@ public class UserController{
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
-        try {
-            userService.deleteUser(userId);
-            return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("회원 탈퇴 중 오류가 발생했습니다: " + e.getMessage());
-        }
+    public ResponseEntity<String> deleteUser(HttpSession session) {
+        Object _id = session.getAttribute("userId");
+        if(_id == null) return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 요청입니다.");
+        userService.deleteUser((Long) _id);
+        return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
     }
 }
