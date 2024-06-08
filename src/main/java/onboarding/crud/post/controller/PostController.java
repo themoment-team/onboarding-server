@@ -24,7 +24,7 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<?> createPost(@RequestBody Post post) {
         try {
             Post savedPost = postService.writePost(post);
