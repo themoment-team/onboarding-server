@@ -1,4 +1,4 @@
-package onboarding.crud.entity;
+package onboarding.crud.post.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

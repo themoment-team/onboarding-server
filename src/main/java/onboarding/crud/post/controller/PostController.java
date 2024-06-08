@@ -1,10 +1,11 @@
-package onboarding.crud.controller;
+package onboarding.crud.post.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import onboarding.crud.entity.Post;
-import onboarding.crud.service.PostService;
+import onboarding.crud.post.entity.Post;
+import onboarding.crud.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,16 +52,7 @@ public class PostController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
         String userId = _userId.toString();
-
-        Optional<Post> post = postRepository.findById(id);
-        if (post.isPresent()) {
-            Post existingPost = post.get();
-            existingPost.setLikes(existingPost.getLikes() + 1);
-            Post savedPost = postRepository.save(existingPost);
-            return ResponseEntity.ok(savedPost);
-        } else {
-            return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
-        }
+        return ResponseEntity.status(500).body("it will be implemented soon");
     }
 
     @PatchMapping("/{id}")
