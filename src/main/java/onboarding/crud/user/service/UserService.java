@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
@@ -23,11 +25,17 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public User registerUser(User user) throws Exception{
-        if(userRepository.existsById(user.getId())){
-            throw new Exception("이미 존재하는 회원입니다.");
+    public User registerUser(User user) throws ResponseStatusException {
+        try{
+            if(userRepository.existsById(user.getId())){
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"이미 존재하는 회원입니다.");
+            }else{
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"user id는 api 요청에 담지 않습니다.");
+            }
+        } catch (Exception e){
+            if(e instanceof ResponseStatusException) throw e;
+            return userRepository.save(user);
         }
-        return userRepository.save(user);
     }
 
     public Optional<User> loginUser(String name, String password) {
