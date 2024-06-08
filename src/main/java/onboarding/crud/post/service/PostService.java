@@ -1,8 +1,8 @@
-package onboarding.crud.service;
+package onboarding.crud.post.service;
 
 import lombok.AllArgsConstructor;
-import onboarding.crud.entity.Post;
-import onboarding.crud.repository.PostRepository;
+import onboarding.crud.post.entity.Post;
+import onboarding.crud.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

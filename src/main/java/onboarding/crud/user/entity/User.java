@@ -1,20 +1,18 @@
-package onboarding.crud.entity;
+package onboarding.crud.user.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "users")
 @Getter
 @Setter
-@Table(name = "posts")
-public class Post {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title;
-    private String content;
-    private String author;
-    private Integer likes;
+    private String name;
+    private String password;
 }

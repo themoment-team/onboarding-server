@@ -1,10 +1,10 @@
-package onboarding.crud.controller;
+package onboarding.crud.user.controller;
 
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import onboarding.crud.entity.User;
-import onboarding.crud.service.UserService;
+import onboarding.crud.user.entity.User;
+import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
