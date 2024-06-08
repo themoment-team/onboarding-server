@@ -5,10 +5,7 @@ import onboarding.crud.comment.service.CommentService;
 import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,6 +19,11 @@ public class CommentController {
     @GetMapping
     public List<Comment> getCommentsByPostId(@PathVariable Long postId) {
         return commentService.getCommentsByPostId(postId);
+    }
+
+    @PostMapping
+    public Comment createComment(@PathVariable Long postId, @RequestBody Comment comment) {
+        return commentService.createComment(postId, comment);
     }
 
 
