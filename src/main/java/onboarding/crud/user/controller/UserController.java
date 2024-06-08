@@ -36,13 +36,7 @@ public class UserController{
 
     @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
-        try {
-            return ResponseEntity.ok(userService.registerUser(user));
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()
-            );
-        }
+        return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/login")
