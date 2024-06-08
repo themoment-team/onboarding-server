@@ -23,7 +23,10 @@ public class UserService {
         return userRepository.findById(userId);
     }
 
-    public User registerUser(User user) {
+    public User registerUser(User user) throws Exception{
+        if(userRepository.existsById(user.getId())){
+            throw new Exception("이미 존재하는 회원입니다.");
+        }
         return userRepository.save(user);
     }
 
