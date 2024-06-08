@@ -85,6 +85,7 @@ public class UserController{
         Object _id = session.getAttribute("userId");
         if(_id == null) return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 요청입니다.");
         userService.deleteUser((Long) _id);
+        session.invalidate();
         return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
     }
 }
