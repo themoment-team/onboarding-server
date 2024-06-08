@@ -38,7 +38,7 @@ public class UserController{
             return ResponseEntity.ok(userService.registerUser(user));
         } catch (Exception e) {
             throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 중 오류가 발생했습니다."
+                HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage()
             );
         }
     }
