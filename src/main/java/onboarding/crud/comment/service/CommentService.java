@@ -20,4 +20,11 @@ public class CommentService {
         return commentRepository.findByPostId(postId);
     }
 
+    public Comment createComment(Long postId, Comment comment) {
+        return postRepository.findById(postId).map(post -> {
+            comment.setPost(post);
+            return commentRepository.save(comment);
+        }).orElseThrow(() -> new IllegalArgumentException("Post not found"));
+    }
+
 }
