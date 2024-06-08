@@ -80,7 +80,7 @@ public class UserController{
         }
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping
     public ResponseEntity<String> deleteUser(HttpSession session) {
         Object _id = session.getAttribute("userId");
         if(_id == null) return  ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증되지 않은 요청입니다.");
