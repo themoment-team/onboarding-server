@@ -71,13 +71,11 @@ public class UserController{
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logoutUser(HttpSession session) {
-        try {
-            session.invalidate(); // 무효화 세션
-            return ResponseEntity.ok("로그아웃이 성공적으로 완료되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그아웃 중 오류가 발생했습니다.");
-        }
+    public ResponseEntity<String> logoutUser(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if(session == null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그아웃할 세션을 찾을 수 없습니다.");
+        session.invalidate();
+        return ResponseEntity.ok("로그아웃이 성공적으로 완료되었습니다.");
     }
 
     @DeleteMapping
