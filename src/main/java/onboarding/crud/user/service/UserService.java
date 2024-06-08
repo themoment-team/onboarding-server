@@ -31,7 +31,7 @@ public class UserService {
         return userRepository.findByNameAndPassword(name, password);
     }
 
-    public void deleteUser(Long userId) throws Exception {
+    public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
     }
 }
