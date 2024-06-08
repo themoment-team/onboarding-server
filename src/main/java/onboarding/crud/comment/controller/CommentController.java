@@ -5,6 +5,7 @@ import onboarding.crud.comment.service.CommentService;
 import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +25,12 @@ public class CommentController {
     @PostMapping
     public Comment createComment(@PathVariable Long postId, @RequestBody Comment comment) {
         return commentService.createComment(postId, comment);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.noContent().build();
     }
 
 
