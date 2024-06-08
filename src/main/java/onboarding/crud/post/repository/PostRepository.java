@@ -1,6 +1,6 @@
-package onboarding.crud.repository;
+package onboarding.crud.post.repository;
 
-import onboarding.crud.entity.Post;
+import onboarding.crud.post.entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
