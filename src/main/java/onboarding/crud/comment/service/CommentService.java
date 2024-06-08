@@ -27,4 +27,8 @@ public class CommentService {
         }).orElseThrow(() -> new IllegalArgumentException("Post not found"));
     }
 
+    public void deleteComment(Long id) {
+        commentRepository.deleteById(id);
+    }
+
 }
