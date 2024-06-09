@@ -1,9 +1,9 @@
-package onboarding.crud.controller;
+package onboarding.crud.post.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import onboarding.crud.entity.Post;
-import onboarding.crud.service.PostService;
+import onboarding.crud.post.entity.Post;
+import onboarding.crud.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +24,7 @@ public class PostController {
         return postService.getAllPosts();
     }
 
-    @PostMapping("/write")
+    @PostMapping
     public ResponseEntity<?> createPost(@RequestBody Post post) {
         try {
             Post savedPost = postService.writePost(post);

@@ -1,9 +1,10 @@
-package onboarding.crud.controller;
+package onboarding.crud.user.controller;
 
 
 import jakarta.servlet.http.HttpSession;
-import onboarding.crud.entity.User;
-import onboarding.crud.service.UserService;
+import onboarding.crud.user.dto.UserDto;
+import onboarding.crud.user.entity.User;
+import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,24 +24,18 @@ public class UserController{
     private UserService userService;
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable long userId) {
-        Optional<User> userOptional = userService.getUserById(userId);
-        if(userOptional.isPresent())
+    public UserDto getUserById(@PathVariable long userId) {
+        Optional<UserDto> userOptional = userService.getUserById(userId);
+        if (userOptional.isPresent())
             return userOptional.get();
         else throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "User not found"
+                HttpStatus.NOT_FOUND, "User not found"
         );
     }
 
     @PostMapping("/signup")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
-        try {
-            return ResponseEntity.ok(userService.registerUser(user));
-        } catch (Exception e) {
-            throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR, "회원가입 중 오류가 발생했습니다."
-            );
-        }
+        return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/login")
