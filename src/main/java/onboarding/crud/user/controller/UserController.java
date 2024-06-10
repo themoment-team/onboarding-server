@@ -2,6 +2,7 @@ package onboarding.crud.user.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import onboarding.crud.user.dto.UserDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class UserController{
     private UserService userService;
 
     @GetMapping("/{userId}")
-    public User getUserById(@PathVariable long userId) {
-        Optional<User> userOptional = userService.getUserById(userId);
-        if(userOptional.isPresent())
+    public UserDto getUserById(@PathVariable long userId) {
+        Optional<UserDto> userOptional = userService.getUserById(userId);
+        if (userOptional.isPresent())
             return userOptional.get();
         else throw new ResponseStatusException(
-            HttpStatus.NOT_FOUND, "User not found"
+                HttpStatus.NOT_FOUND, "User not found"
         );
     }
 
