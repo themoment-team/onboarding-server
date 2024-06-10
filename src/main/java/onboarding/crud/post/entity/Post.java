@@ -19,12 +19,23 @@ public class Post {
     private String title;
     private String content;
     private String author;
+    @Setter(AccessLevel.NONE)
     private Integer likes;
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     //String of user ids separated by comma
     // ex: 1,2,3
     private String _likedUsers;
+    public void resetLikes() {
+        likes = 0;
+        _likedUsers = "";
+    }
+    public void updateLikes() {
+        likes = getLikedUsers().size();
+    }
+    public void updateLikes(int likes) {
+        this.likes = likes;
+    }
     public HashSet<Long> getLikedUsers() {
         if(_likedUsers == null) return new HashSet<>();
         String[] likedUsersSet = _likedUsers.split(",");
@@ -40,6 +51,7 @@ public class Post {
             likedUsersString.append(likedUser).append(",");
         }
         _likedUsers = likedUsersString.toString();
+        updateLikes(likedUsers.size());
     }
     public void addLikedUser(Long userId) {
         HashSet<Long> likedUsers = getLikedUsers();

@@ -18,6 +18,7 @@ public class PostService {
 
     public Post writePost(Post post) {
         post.setId(null);
+        post.resetLikes();
         return postRepository.save(post);
     }
 
@@ -37,6 +38,22 @@ public class PostService {
             postRepository.deleteById(id);
             return true;
         }else {
+            return false;
+        }
+    }
+
+    public boolean toggleLikePost(Long postId, Long userId) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            Post likedPost = post.get();
+            if(likedPost.getLikedUsers().contains(userId)){
+                likedPost.removeLikedUser(userId);
+            }else{
+                likedPost.addLikedUser(userId);
+            }
+            postRepository.save(likedPost);
+            return true;
+        } else {
             return false;
         }
     }
