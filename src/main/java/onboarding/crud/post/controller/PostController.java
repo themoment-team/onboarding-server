@@ -65,6 +65,7 @@ public class PostController {
     public ResponseEntity<?> likePost(@PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object _userId = session.getAttribute("userId");
+        //todo : 좋아요 기능 구현 with Session
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
