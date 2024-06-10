@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.service.PostService;
 import onboarding.crud.user.dto.UserDto;
-import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
