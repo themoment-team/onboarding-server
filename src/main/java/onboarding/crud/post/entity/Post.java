@@ -33,4 +33,11 @@ public class Post {
         }
         return likedUsers;
     }
+    public void setLikedUsers(ArrayList<Long> likedUsers) {
+        StringBuilder likedUsersString = new StringBuilder();
+        for (Long likedUser : likedUsers) {
+            likedUsersString.append(likedUser).append(",");
+        }
+        _likedUsers = likedUsersString.toString();
+    }
 }
