@@ -1,6 +1,7 @@
 package onboarding.crud.user.service;
 
 import lombok.AllArgsConstructor;
+import onboarding.crud.user.dto.UserDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,9 @@ public class UserService {
         return userRepository.findByName(name);
     }
 
-    public Optional<User> getUserById(long userId) {
-        return userRepository.findById(userId);
+    public Optional<UserDto> getUserById(long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.map(User::toDto);
     }
 
     public User registerUser(User user) throws ResponseStatusException {
