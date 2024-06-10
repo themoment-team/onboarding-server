@@ -40,4 +40,9 @@ public class Post {
         }
         _likedUsers = likedUsersString.toString();
     }
+    public void addLikedUser(Long userId) {
+        ArrayList<Long> likedUsers = getLikedUsers();
+        likedUsers.add(userId);
+        setLikedUsers(likedUsers);
+    }
 }
