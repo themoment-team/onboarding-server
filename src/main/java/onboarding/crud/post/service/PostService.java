@@ -1,6 +1,7 @@
 package onboarding.crud.post.service;
 
 import lombok.AllArgsConstructor;
+import onboarding.crud.post.dto.PostDto;
 import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,14 @@ public class PostService {
         } else {
             return false;
         }
+    }
+
+    private PostDto convertToDto(Post post) {
+        PostDto postDto = new PostDto();
+        postDto.setId(post.getId());
+        postDto.setTitle(post.getTitle());
+        postDto.setContent(post.getContent());
+        postDto.setAuthor(post.getAuthor());
+        return postDto;
     }
 }
