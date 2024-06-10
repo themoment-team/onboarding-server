@@ -90,12 +90,16 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
+        Optional<UserDto> user = userService.getUserById(Long.parseLong(_userId.toString()));
+        if(user.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("알맞은 회원으로 로그인이 필요합니다.");
+        }
         Optional<Post> _post = postService.getPostById(id);
         if(_post.isEmpty()) {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
         Post post = _post.get();
-        if(!Objects.equals(post.getAuthor(), userService.getUserById(Long.parseLong(_userId.toString())).get().getName())){
+        if(!Objects.equals(post.getAuthor(), user.get().getName())){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("게시글 삭제 권한이 없습니다.");
         }
         if(postService.deletePost(id)){
