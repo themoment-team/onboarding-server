@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -17,14 +18,20 @@ public class CommentService {
     @Autowired
     private PostRepository postRepository;
 
-    public List<Comment> getCommentsByPostId(Long postId) {
-        return commentRepository.findByPostId(postId);
+    public List<CommentDto> getCommentsByPostId(Long postId) {
+        return commentRepository.findByPostId(postId).stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
-    public Comment createComment(Long postId, Comment comment) {
+    public CommentDto createComment(Long postId, CommentDto commentDto) {
         return postRepository.findById(postId).map(post -> {
+            Comment comment = new Comment();
+            comment.setContent(commentDto.getContent());
+            comment.setAuthor(commentDto.getAuthor());
             comment.setPost(post);
-            return commentRepository.save(comment);
+            Comment savedComment = commentRepository.save(comment);
+            return convertToDto(savedComment);
         }).orElseThrow(() -> new IllegalArgumentException("Post not found"));
     }
 
