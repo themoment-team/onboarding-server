@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -81,7 +82,21 @@ public class PostController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deletePost(@PathVariable Long id) {
+    public ResponseEntity<String> deletePost(@PathVariable Long id, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        Object _userId = session.getAttribute("userId");
+        if(_userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        Optional<Post> _post = postService.getPostById(id);
+        if(_post.isEmpty()) {
+            return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
+        }
+        Post post = _post.get();
+        if(!Objects.equals(post.getAuthor(), userService.getUserById(Long.parseLong(_userId.toString())).get().getName())){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("게시글 삭제 권한이 없습니다.");
+        }
         if(postService.deletePost(id)){
             return ResponseEntity.ok("게시글 삭제가 성공적으로 완료되었습니다.");
         }else{
