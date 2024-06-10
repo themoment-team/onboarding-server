@@ -20,5 +20,7 @@ public class Post {
     private Integer likes;
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
+    //String of user ids separated by comma
+    // ex: [1,2,3]
     private String likedUsers;
 }
