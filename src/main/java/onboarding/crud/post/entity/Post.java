@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+
 @Entity
 @Getter
 @Setter
@@ -21,6 +23,14 @@ public class Post {
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
     //String of user ids separated by comma
-    // ex: [1,2,3]
-    private String likedUsers;
+    // ex: 1,2,3
+    private String _likedUsers;
+    public ArrayList<Long> getLikedUsers() {
+        String[] likedUsersArray = _likedUsers.split(",");
+        ArrayList<Long> likedUsers = new ArrayList<>();
+        for (String likedUser : likedUsersArray) {
+            likedUsers.add(Long.parseLong(likedUser));
+        }
+        return likedUsers;
+    }
 }
