@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Entity
 @Getter
@@ -25,15 +25,16 @@ public class Post {
     //String of user ids separated by comma
     // ex: 1,2,3
     private String _likedUsers;
-    public ArrayList<Long> getLikedUsers() {
-        String[] likedUsersArray = _likedUsers.split(",");
-        ArrayList<Long> likedUsers = new ArrayList<>();
-        for (String likedUser : likedUsersArray) {
+    public HashSet<Long> getLikedUsers() {
+        if(_likedUsers == null) return new HashSet<>();
+        String[] likedUsersSet = _likedUsers.split(",");
+        HashSet<Long> likedUsers = new HashSet<>();
+        for (String likedUser : likedUsersSet) {
             likedUsers.add(Long.parseLong(likedUser));
         }
         return likedUsers;
     }
-    public void setLikedUsers(ArrayList<Long> likedUsers) {
+    public void setLikedUsers(HashSet<Long> likedUsers) {
         StringBuilder likedUsersString = new StringBuilder();
         for (Long likedUser : likedUsers) {
             likedUsersString.append(likedUser).append(",");
@@ -41,8 +42,13 @@ public class Post {
         _likedUsers = likedUsersString.toString();
     }
     public void addLikedUser(Long userId) {
-        ArrayList<Long> likedUsers = getLikedUsers();
+        HashSet<Long> likedUsers = getLikedUsers();
         likedUsers.add(userId);
+        setLikedUsers(likedUsers);
+    }
+    public void removeLikedUser(Long userId) {
+        HashSet<Long> likedUsers = getLikedUsers();
+        likedUsers.remove(userId);
         setLikedUsers(likedUsers);
     }
 }
