@@ -1,5 +1,6 @@
 package onboarding.crud.comment.service;
 
+import onboarding.crud.comment.dto.CommentDto;
 import onboarding.crud.comment.entity.Comment;
 import onboarding.crud.comment.repository.CommentRepository;
 import onboarding.crud.post.repository.PostRepository;
@@ -29,6 +30,14 @@ public class CommentService {
 
     public void deleteComment(Long id) {
         commentRepository.deleteById(id);
+    }
+
+    private CommentDto convertToDto(Comment comment) {
+        CommentDto commentDto = new CommentDto();
+        commentDto.setId(comment.getId());
+        commentDto.setContent(comment.getContent());
+        commentDto.setAuthor(comment.getAuthor());
+        return commentDto;
     }
 
 }
