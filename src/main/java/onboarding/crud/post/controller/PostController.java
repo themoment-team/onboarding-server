@@ -4,6 +4,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.service.PostService;
+import onboarding.crud.user.dto.UserDto;
+import onboarding.crud.user.entity.User;
+import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +22,26 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping
     public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
     @PostMapping
-    public ResponseEntity<?> createPost(@RequestBody Post post) {
+    public ResponseEntity<?> createPost(@RequestBody Post post, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Object _userId = session.getAttribute("userId");
+        if(_userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        Optional<UserDto> author = userService.getUserById(Long.parseLong(_userId.toString()));
+        if(author.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+        post.setAuthor(author.get().getName());
         try {
             Post savedPost = postService.writePost(post);
             return ResponseEntity.ok(savedPost);
