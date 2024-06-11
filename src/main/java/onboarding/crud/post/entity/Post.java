@@ -17,5 +17,7 @@ public class Post {
     private String content;
     private String author;
     private Integer likes;
+
+    @Column(nullable = false)
     private Integer viewCount = 0;
 }
