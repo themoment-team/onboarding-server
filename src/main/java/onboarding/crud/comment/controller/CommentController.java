@@ -1,7 +1,6 @@
 package onboarding.crud.comment.controller;
 
 import onboarding.crud.comment.dto.CommentDto;
-import onboarding.crud.comment.entity.Comment;
 import onboarding.crud.comment.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
