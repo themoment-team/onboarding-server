@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpSession;
 import onboarding.crud.post.dto.CreatePostDto;
 import onboarding.crud.post.dto.PostDto;
 import onboarding.crud.post.dto.UpdatePostDto;
-import onboarding.crud.post.entity.Post;
 import onboarding.crud.post.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,9 +38,10 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
-        Optional<PostDto> post = postService.getPostById(id);
-        if (post.isPresent()) {
-            return ResponseEntity.ok(post.get());
+        Optional<PostDto> postDto = postService.getPostById(id);
+        if (postDto.isPresent()) {
+            return postDto.map(ResponseEntity::ok)
+                    .orElseGet(()->ResponseEntity.notFound().build());
         } else {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
