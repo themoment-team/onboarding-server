@@ -25,6 +25,7 @@ public class PostService {
         post.setTitle(createPostDto.getTitle());
         post.setContent(createPostDto.getContent());
         post.setAuthor(createPostDto.getAuthor());
+        post.resetLikes();
         Post savedPost = postRepository.save(post);
         return convertToDto(savedPost);
     }
@@ -45,11 +46,28 @@ public class PostService {
     }
 
     public boolean deletePost(Long id) {
-        if (postRepository.existsById(id)) {
+        if(postRepository.existsById(id)){
             postRepository.deleteById(id);
             return true;
+        }else {
+            return false;
         }
-        return false;
+    }
+
+    public boolean toggleLikePost(Long postId, Long userId) {
+        Optional<Post> post = postRepository.findById(postId);
+        if (post.isPresent()) {
+            Post likedPost = post.get();
+            if(likedPost.getLikedUsers().contains(userId)){
+                likedPost.removeLikedUser(userId);
+            }else{
+                likedPost.addLikedUser(userId);
+            }
+            postRepository.save(likedPost);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean modifyPost(Long id, UpdatePostDto updatePostDto) {
