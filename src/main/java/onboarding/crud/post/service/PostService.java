@@ -75,6 +75,7 @@ public class PostService {
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
         postDto.setAuthor(post.getAuthor());
+        postDto.setViewCount(post.getViewCount());
         return postDto;
     }
 }
