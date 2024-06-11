@@ -17,4 +17,5 @@ public class Post {
     private String content;
     private String author;
     private Integer likes;
+    private Integer viewCount = 0;
 }
