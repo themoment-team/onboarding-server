@@ -10,4 +10,5 @@ public class PostDto {
     private String title;
     private String content;
     private String author;
+    private Integer viewCount = 0;
 }
