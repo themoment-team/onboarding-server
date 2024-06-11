@@ -31,7 +31,11 @@ public class PostService {
 
     public Optional<PostDto> getPostById(Long id) {
         return postRepository.findById(id)
-                .map(this::convertToDto);
+                .map(post -> {
+                    post.setViewCount(post.getViewCount() + 1);
+                    postRepository.save(post);
+                    return convertToDto(post);
+                });
     }
 
     public List<PostDto> getAllPosts() {
