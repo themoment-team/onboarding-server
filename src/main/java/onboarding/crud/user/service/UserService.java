@@ -45,9 +45,6 @@ public class UserService {
         Optional<User> userOptional = userRepository.findById(id);
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            if (userDto.getNickname() != null) {
-                user.setNickname(userDto.getNickname());
-            }
             if (userDto.getPassword() != null) {
                 user.setPassword(userDto.getPassword());
             }
