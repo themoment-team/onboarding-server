@@ -1,6 +1,7 @@
 package onboarding.crud.user.service;
 
 import lombok.AllArgsConstructor;
+import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.repository.UserRepository;
@@ -38,6 +39,22 @@ public class UserService {
 
     public void deleteUser(Long userId) {
         userRepository.deleteById(userId);
+    }
+
+    public User updateUser(Long id, UpdateUserDto userDto) {
+        Optional<User> userOptional = userRepository.findById(id);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (userDto.getNickname() != null) {
+                user.setNickname(userDto.getNickname());
+            }
+            if (userDto.getPassword() != null) {
+                user.setPassword(userDto.getPassword());
+            }
+            return userRepository.save(user);
+        } else {
+            throw new RuntimeException("사용자를 찾을 수 없습니다");
+        }
     }
 }
 
