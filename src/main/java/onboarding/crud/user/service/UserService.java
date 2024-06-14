@@ -18,10 +18,6 @@ public class UserService {
     @Autowired
     public UserRepository userRepository;
 
-    public Optional<User> getUserByName(String name) {
-        return userRepository.findByName(name);
-    }
-
     public Optional<UserDto> getUserById(long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::toDto);
