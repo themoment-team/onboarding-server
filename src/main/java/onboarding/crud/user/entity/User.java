@@ -17,9 +17,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String nickname;
     private String password;
 
     public UserDto toDto() {
-        return new UserDto(this.id, this.name);
+        return new UserDto(this.id, this.name, this.nickname);
     }
 }

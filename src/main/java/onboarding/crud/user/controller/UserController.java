@@ -3,6 +3,7 @@ package onboarding.crud.user.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
@@ -79,5 +80,11 @@ public class UserController{
         userService.deleteUser((Long) _id);
         session.invalidate();
         return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UpdateUserDto userDto) {
+        User updatedUser = userService.updateUser(id, userDto);
+        return ResponseEntity.ok("회원 정보가 성공적으로 수정되었습니다.");
     }
 }
