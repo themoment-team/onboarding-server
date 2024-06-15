@@ -63,8 +63,8 @@ public class PostController {
         }
     }
 
-    @PatchMapping("/{id}/like")
-    public ResponseEntity<?> likePost(@PathVariable Long id, HttpServletRequest request) {
+    @PostMapping("/{id}/like")
+    public ResponseEntity<String> likePost(@PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object _userId = session.getAttribute("userId");
         if(_userId == null) {
