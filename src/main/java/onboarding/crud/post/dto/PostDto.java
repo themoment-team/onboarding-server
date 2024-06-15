@@ -11,5 +11,5 @@ public class PostDto {
     private String content;
     private String author;
     private Integer viewCount = 0;
-    private Integer likes;
+    private Integer likes = 0;
 }
