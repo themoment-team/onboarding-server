@@ -94,6 +94,7 @@ public class PostService {
         postDto.setContent(post.getContent());
         postDto.setAuthor(post.getAuthor());
         postDto.setViewCount(post.getViewCount());
+        postDto.setLikes(post.getLikes());
         return postDto;
     }
 }
