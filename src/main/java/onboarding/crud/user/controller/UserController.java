@@ -19,15 +19,20 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/user")
 
 public class UserController{
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable long userId) {
+    @GetMapping()
+    public UserDto getUserById(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        if(userId == null) throw new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."
+        );
         Optional<UserDto> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent())
             return userOptional.get();

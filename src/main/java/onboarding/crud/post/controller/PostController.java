@@ -18,7 +18,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/posts")
+@RequestMapping("api/post")
 public class PostController {
 
     @Autowired
