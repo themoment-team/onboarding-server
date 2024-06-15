@@ -43,7 +43,7 @@ public class PostController {
         if(author.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        createPostDto.setAuthor(author.get().getName());
+        createPostDto.setAuthor(author.get().getNickname());
         try {
             PostDto savedPost = postService.writePost(createPostDto);
             return ResponseEntity.ok(savedPost);
