@@ -25,14 +25,12 @@ public class UserController{
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable long userId,HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if(session == null || session.getAttribute("userId") == null) throw new ResponseStatusException(
+    @GetMapping()
+    public UserDto getUserById(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long userId = (Long) session.getAttribute("userId");
+        if(userId == null) throw new ResponseStatusException(
                 HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."
-        );
-        if((Long)session.getAttribute("userId") != userId) throw new ResponseStatusException(
-                HttpStatus.FORBIDDEN, "본인의 정보만 조회할 수 있습니다."
         );
         Optional<UserDto> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent())
