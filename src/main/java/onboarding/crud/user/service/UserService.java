@@ -18,19 +18,40 @@ public class UserService {
     @Autowired
     public UserRepository userRepository;
 
+    @Autowired
+    private HashingService hashingService;
+
     public Optional<UserDto> getUserById(long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::toDto);
     }
 
-    public User registerUser(User user) throws ResponseStatusException {
-        // Check if the user already exists
-        user.setId(null);
+    public User registerUser(String name, String nickname, String password){
+        User user = new User();
+
+        user.setName(name);
+        user = userRepository.save(user);
+
+        user.setNickname(nickname);
+        user = userRepository.save(user);
+
+        String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
+        user.setHashedPassword(hashedPassword);
+
         return userRepository.save(user);
     }
 
     public Optional<User> loginUser(String name, String password) {
-        return userRepository.findByNameAndPassword(name, password);
+        Optional<User> userOptional = userRepository.findByName(name);
+
+        User user = userOptional.get();
+        String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
+
+        if (hashedPassword.equals(user.getHashedPassword())) {
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void deleteUser(Long userId) {

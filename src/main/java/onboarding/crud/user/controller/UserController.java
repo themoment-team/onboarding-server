@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
+import onboarding.crud.user.dto.UserSignupDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,8 @@ public class UserController{
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.registerUser(user));
+    public User signup(@RequestBody UserSignupDto userSignupDto) {
+        return userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
     }
 
     @PostMapping("/login")
@@ -52,7 +53,7 @@ public class UserController{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청 정보가 형식에 맞지 않습니다.");
         }
 
-        Optional<User> _user = userService.loginUser(name, password);
+        Optional<User> _user= userService.loginUser(name, password);
         if(_user.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 유효한 사용자 이름과 비밀번호를 입력하세요.");
         }
