@@ -36,7 +36,7 @@ public class UserService {
         user = userRepository.save(user);
 
         String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
-        user.setHashedPassword(hashedPassword);
+        user.setPassword(hashedPassword);
 
         return userRepository.save(user);
     }
@@ -47,7 +47,7 @@ public class UserService {
         User user = userOptional.get();
         String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
 
-        if (hashedPassword.equals(user.getHashedPassword())) {
+        if (hashedPassword.equals(user.getPassword())) {
             return Optional.of(user);
         } else {
             return Optional.empty();
@@ -64,6 +64,9 @@ public class UserService {
             User user = userOptional.get();
             if (userDto.getPassword() != null) {
                 user.setPassword(userDto.getPassword());
+            }
+            if (userDto.getNickname() != null) {
+                user.setNickname(userDto.getNickname());
             }
             return userRepository.save(user);
         } else {
