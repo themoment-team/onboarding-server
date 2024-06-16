@@ -28,11 +28,9 @@ public class UserController{
 
     @GetMapping()
     public UserDto getUserById(HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long userId = (Long) session.getAttribute("userId");
-        if(userId == null) throw new ResponseStatusException(
-                HttpStatus.UNAUTHORIZED, "로그인이 필요합니다."
-        );
+        Object _id = request.getSession().getAttribute("userId");
+        if(_id == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        Long userId = (Long) _id;
         Optional<UserDto> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent())
             return userOptional.get();
@@ -88,9 +86,12 @@ public class UserController{
         return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UpdateUserDto userDto) {
-        User updatedUser = userService.updateUser(id, userDto);
+    @PatchMapping()
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserDto userDto,HttpServletRequest request) {
+        Object _id = request.getSession().getAttribute("userId");
+        if(_id == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        User updatedUser = userService.updateUser((Long) _id, userDto);
         return ResponseEntity.ok("회원 정보가 성공적으로 수정되었습니다.");
     }
 }
