@@ -19,7 +19,6 @@ public class User {
     private String name;
     private String nickname;
     private String password;
-    private String hashedPassword;
 
     public UserDto toDto() {
         return new UserDto(this.id, this.name, this.nickname);
