@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/posts/{postId}/comments")
+@RequestMapping("api/post/{postId}/comments")
 public class CommentController {
-
+    //todo:session authorization
     @Autowired
     private CommentService commentService;
 
@@ -21,6 +21,7 @@ public class CommentController {
     }
     @PostMapping
     public CommentDto createComment(@PathVariable Long postId, @RequestBody CommentDto commentDto) {
+        //todo:initialize field
         return commentService.createComment(postId, commentDto);
     }
 

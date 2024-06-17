@@ -22,7 +22,7 @@ import java.util.Optional;
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostService postService; // DI 필드, setter, 생성자
 
     @Autowired
     private UserService userService;
@@ -43,7 +43,7 @@ public class PostController {
         if(author.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        createPostDto.setAuthor(author.get().getName());
+        createPostDto.setAuthor(author.get().getNickname());
         try {
             PostDto savedPost = postService.writePost(createPostDto);
             return ResponseEntity.ok(savedPost);
@@ -64,7 +64,7 @@ public class PostController {
     }
 
     @PatchMapping("/{id}/like")
-    public ResponseEntity<?> likePost(@PathVariable Long id, HttpServletRequest request) {
+    public ResponseEntity<String> likePost(@PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Object _userId = session.getAttribute("userId");
         if(_userId == null) {

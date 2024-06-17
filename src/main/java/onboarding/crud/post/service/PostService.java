@@ -88,12 +88,13 @@ public class PostService {
     }
 
     private PostDto convertToDto(Post post) {
-        PostDto postDto = new PostDto();
+        PostDto postDto = new PostDto(); // builder
         postDto.setId(post.getId());
         postDto.setTitle(post.getTitle());
         postDto.setContent(post.getContent());
         postDto.setAuthor(post.getAuthor());
         postDto.setViewCount(post.getViewCount());
+        postDto.setLikes(post.getLikes());
         return postDto;
     }
 }

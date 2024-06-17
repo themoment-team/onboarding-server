@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
+import onboarding.crud.user.dto.UserSignupDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +26,11 @@ public class UserController{
     @Autowired
     private UserService userService;
 
-    @GetMapping("/{userId}")
-    public UserDto getUserById(@PathVariable long userId) {
+    @GetMapping()
+    public UserDto getUserById(HttpServletRequest request) {
+        Object _id = request.getSession().getAttribute("userId");
+        if(_id == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        Long userId = (Long) _id;
         Optional<UserDto> userOptional = userService.getUserById(userId);
         if (userOptional.isPresent())
             return userOptional.get();
@@ -36,8 +40,8 @@ public class UserController{
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        return ResponseEntity.ok(userService.registerUser(user));
+    public User signup(@RequestBody UserSignupDto userSignupDto) {
+        return userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
     }
 
     @PostMapping("/login")
@@ -52,7 +56,7 @@ public class UserController{
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("요청 정보가 형식에 맞지 않습니다.");
         }
 
-        Optional<User> _user = userService.loginUser(name, password);
+        Optional<User> _user= userService.loginUser(name, password);
         if(_user.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인에 실패했습니다. 유효한 사용자 이름과 비밀번호를 입력하세요.");
         }
@@ -82,9 +86,12 @@ public class UserController{
         return ResponseEntity.ok("회원 탈퇴가 성공적으로 완료되었습니다.");
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable Long id, @RequestBody UpdateUserDto userDto) {
-        User updatedUser = userService.updateUser(id, userDto);
+    @PatchMapping()
+    public ResponseEntity<String> updateUser(@RequestBody UpdateUserDto userDto,HttpServletRequest request) {
+        Object _id = request.getSession().getAttribute("userId");
+        if(_id == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
+        User updatedUser = userService.updateUser((Long) _id, userDto);
         return ResponseEntity.ok("회원 정보가 성공적으로 수정되었습니다.");
     }
 }
