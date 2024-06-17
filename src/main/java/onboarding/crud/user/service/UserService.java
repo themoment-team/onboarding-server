@@ -26,6 +26,12 @@ public class UserService {
     public User registerUser(User user) throws ResponseStatusException {
         // Check if the user already exists
         user.setId(null);
+        if (userRepository.findByName(user.getName()).isPresent()) {
+            throw new ResponseStatusException(
+                    org.springframework.http.HttpStatus.BAD_REQUEST,
+                    "입력한 Id가 이미 존재합니다."
+            );
+        }
         return userRepository.save(user);
     }
 
