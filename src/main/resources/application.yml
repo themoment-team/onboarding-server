@@ -9,14 +9,14 @@ server:
 
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3307/onboarding?serverTimezone=Asia/Seoul
-    username: "root"
-    password: "1234"
+    url: jdbc:postgresql://ep-withered-tooth-a1wrezlj-pooler.ap-southeast-1.aws.neon.tech/boodb
+    username: boodb_owner
+    password: ${PASSWORD}
 
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
