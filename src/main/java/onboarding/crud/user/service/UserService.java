@@ -18,25 +18,48 @@ public class UserService {
     @Autowired
     public UserRepository userRepository;
 
+    @Autowired
+    private HashingService hashingService;
+
     public Optional<UserDto> getUserById(long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         return userOptional.map(User::toDto);
     }
 
-    public User registerUser(User user) throws ResponseStatusException {
-        // Check if the user already exists
-        user.setId(null);
-        if (userRepository.findByName(user.getName()).isPresent()) {
+    public User registerUser(String name, String nickname, String password){
+        if (userRepository.findByName(name).isPresent()) {
             throw new ResponseStatusException(
                     org.springframework.http.HttpStatus.BAD_REQUEST,
                     "입력한 Id가 이미 존재합니다."
             );
         }
+        User user = new User();
+
+        user.setName(name);
+        user = userRepository.save(user);
+
+        user.setNickname(nickname);
+        user = userRepository.save(user);
+
+        String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
+        user.setPassword(hashedPassword);
+
         return userRepository.save(user);
     }
 
     public Optional<User> loginUser(String name, String password) {
-        return userRepository.findByNameAndPassword(name, password);
+        Optional<User> userOptional = userRepository.findByNameAndPassword(name,password);
+        if (userOptional.isEmpty()) {
+            return Optional.empty();
+        }
+        User user = userOptional.get();
+        String hashedPassword = hashingService.hashPasswordWithId(password, user.getId());
+
+        if (hashedPassword.equals(user.getPassword())) {
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
     }
 
     public void deleteUser(Long userId) {
@@ -49,6 +72,9 @@ public class UserService {
             User user = userOptional.get();
             if (userDto.getPassword() != null) {
                 user.setPassword(userDto.getPassword());
+            }
+            if (userDto.getNickname() != null) {
+                user.setNickname(userDto.getNickname());
             }
             return userRepository.save(user);
         } else {
