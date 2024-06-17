@@ -48,7 +48,7 @@ public class UserService {
     }
 
     public Optional<User> loginUser(String name, String password) {
-        Optional<User> userOptional = userRepository.findByNameAndPassword(name,password);
+        Optional<User> userOptional = userRepository.findByName(name);
         if (userOptional.isEmpty()) {
             return Optional.empty();
         }
