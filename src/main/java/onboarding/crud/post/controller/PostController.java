@@ -22,7 +22,7 @@ import java.util.Optional;
 public class PostController {
 
     @Autowired
-    private PostService postService;
+    private PostService postService; // DI 필드, setter, 생성자
 
     @Autowired
     private UserService userService;
