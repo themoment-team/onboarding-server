@@ -7,6 +7,7 @@ import lombok.Setter;
 import onboarding.crud.post.LikedUsersConverter;
 import onboarding.crud.comment.entity.Comment;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -24,12 +25,11 @@ public class Post {
     private String author;
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
-    @Setter(AccessLevel.NONE)
     private Integer likes;
     // Stirng of user ids separated by comma
     // ex: 1, 2, 3
     @Convert(converter = LikedUsersConverter.class)
-    private HashSet<Long> likedUsers = new HashSet<>();
+    private ArrayList<Long> likedUsers = new ArrayList<>();
     public void updateLikes() {
         this.likes = likedUsers.size();
     }

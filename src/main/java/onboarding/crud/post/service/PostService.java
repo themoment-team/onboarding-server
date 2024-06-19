@@ -9,6 +9,7 @@ import onboarding.crud.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +59,7 @@ public class PostService {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             Post likedPost = post.get();
-            HashSet<Long> likedUsers = likedPost.getLikedUsers();
+            ArrayList<Long> likedUsers = likedPost.getLikedUsers();
             if(likedUsers.contains(userId)){
                 likedUsers.remove(userId);
                 likedPost.updateLikes();
