@@ -9,4 +9,5 @@ public class UserSignupDto {
     private Long Id;
     private String name;
     private String nickname;
+    private String password;
 }

@@ -40,8 +40,9 @@ public class UserController{
     }
 
     @PostMapping("/signup")
-    public User signup(@RequestBody UserSignupDto userSignupDto) {
-        return userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
+    public ResponseEntity<String> signup(@RequestBody UserSignupDto userSignupDto) {
+        userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
+        return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
     }
 
     @PostMapping("/login")
