@@ -4,8 +4,12 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import onboarding.crud.comment.dto.CommentDto;
+import onboarding.crud.comment.entity.Comment;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,6 +23,8 @@ public class Post {
     private String title;
     private String content;
     private String author;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Comment> comments;
     @Setter(AccessLevel.NONE)
     private Integer likes;
     @Setter(AccessLevel.NONE)
