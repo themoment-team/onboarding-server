@@ -22,6 +22,7 @@ public class CommentController {
     public List<CommentDto> getCommentsByPostId(@PathVariable Long postId) {
         return commentService.getCommentsByPostId(postId);
     }
+
     @PostMapping
     public CommentDto createComment(@PathVariable Long postId, @RequestBody CommentDto commentDto, HttpServletRequest request) {
         Object _id = request.getSession().getAttribute("userId");
