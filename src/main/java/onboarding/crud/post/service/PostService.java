@@ -9,6 +9,7 @@ import onboarding.crud.post.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +26,6 @@ public class PostService {
         post.setTitle(createPostDto.getTitle());
         post.setContent(createPostDto.getContent());
         post.setAuthor(createPostDto.getAuthor());
-        post.resetLikes();
         Post savedPost = postRepository.save(post);
         return convertToDto(savedPost);
     }
@@ -58,10 +58,15 @@ public class PostService {
         Optional<Post> post = postRepository.findById(postId);
         if (post.isPresent()) {
             Post likedPost = post.get();
-            if(likedPost.getLikedUsers().contains(userId)){
-                likedPost.removeLikedUser(userId);
+            HashSet<Long> likedUsers = likedPost.getLikedUsers();
+            if(likedUsers.contains(userId)){
+                likedUsers.remove(userId);
+                likedPost.updateLikes();
+                likedPost.setLikedUsers(likedUsers);
             }else{
-                likedPost.addLikedUser(userId);
+                likedUsers.add(userId);
+                likedPost.updateLikes();
+                likedPost.setLikedUsers(likedUsers);
             }
             postRepository.save(likedPost);
             return true;
