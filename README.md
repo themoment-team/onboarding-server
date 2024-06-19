@@ -1,7 +1,5 @@
 # The Moment Onboarding
 
-githubactionsTest
-
 ## CRUD 게시판
 
 ### Post
@@ -26,3 +24,6 @@ githubactionsTest
 * ✅ 댓글 조회
 * ✅ 댓글 작성
 * ✅ 댓글 삭제
+
+### CI/CD
+* ✅ githubAction
