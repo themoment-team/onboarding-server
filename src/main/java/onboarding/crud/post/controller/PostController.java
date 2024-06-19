@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.post.dto.CreatePostDto;
 import onboarding.crud.post.dto.PostDto;
+import onboarding.crud.post.dto.PostWithCommentsDto;
 import onboarding.crud.post.dto.UpdatePostDto;
 import onboarding.crud.post.service.PostService;
 import onboarding.crud.user.dto.UserDto;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
