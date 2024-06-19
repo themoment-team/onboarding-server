@@ -39,7 +39,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> author = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> author = userService.getUserById((Long) _userId);
         if(author.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -70,7 +70,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> user = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> user = userService.getUserById((Long) _userId);
         if(user.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -98,7 +98,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> user = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> user = userService.getUserById((Long) _userId);
         if(user.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("알맞은 회원으로 로그인이 필요합니다.");
         }
