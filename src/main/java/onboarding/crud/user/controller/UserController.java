@@ -5,7 +5,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
-import onboarding.crud.user.dto.UserSignupDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
