@@ -40,8 +40,8 @@ public class UserController{
     }
 
     @PostMapping("/signup")
-    public User signup(@RequestBody UserSignupDto userSignupDto) {
-        return userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
+    public User signup(@RequestBody User user) {
+        return userService.registerUser(user.getName(), user.getNickname(), user.getPassword());
     }
 
     @PostMapping("/login")
