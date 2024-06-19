@@ -56,10 +56,11 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
-        try {
-            PostWithCommentsDto postWithCommentsDto = postService.getPostWithCommentsById(id);
-            return ResponseEntity.ok(postWithCommentsDto);
-        } catch (ResponseStatusException ex) {
+        Optional<PostDto> postDto = postService.getPostById(id);
+        if (postDto.isPresent()) {
+            return postDto.map(ResponseEntity::ok)
+                    .orElseGet(()->ResponseEntity.notFound().build());
+        } else {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
     }

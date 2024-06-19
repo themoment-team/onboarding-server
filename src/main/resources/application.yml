@@ -1,3 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+    session:
+      cookie:
+        same-site: none
+
 spring:
   datasource:
     url: jdbc:postgresql://ep-withered-tooth-a1wrezlj-pooler.ap-southeast-1.aws.neon.tech/boodb
@@ -11,15 +23,3 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         dialect: org.hibernate.dialect.PostgreSQLDialect
     show-sql: true
-
-#server:
-#  port: 8080
-#  servlet:
-#    context-path: /
-#    encoding:
-#      charset: UTF-8
-#      enabled: true
-#      force: true
-#    session:
-#      cookie:
-#        same-site: none

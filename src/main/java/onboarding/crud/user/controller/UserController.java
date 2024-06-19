@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.user.dto.UpdateUserDto;
 import onboarding.crud.user.dto.UserDto;
+import onboarding.crud.user.dto.UserSignupDto;
 import onboarding.crud.user.entity.User;
 import onboarding.crud.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +40,9 @@ public class UserController{
     }
 
     @PostMapping("/signup")
-    public User signup(@RequestBody User user) {
-        return userService.registerUser(user.getName(), user.getNickname(), user.getPassword());
+    public ResponseEntity<String> signup(@RequestBody UserSignupDto userSignupDto) {
+        userService.registerUser(userSignupDto.getName(), userSignupDto.getNickname(), userSignupDto.getPassword());
+        return ResponseEntity.ok("회원가입이 성공적으로 완료되었습니다.");
     }
 
     @PostMapping("/login")
