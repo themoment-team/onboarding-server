@@ -31,7 +31,10 @@ public class CommentController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComment(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteComment(@PathVariable Long id, HttpServletRequest request) {
+        Object _id = request.getSession().getAttribute("userId");
+        if(_id == null) throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+
         commentService.deleteComment(id);
         return ResponseEntity.noContent().build();
     }
