@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import onboarding.crud.post.dto.CreatePostDto;
 import onboarding.crud.post.dto.PostDto;
+import onboarding.crud.post.dto.PostWithCommentsDto;
 import onboarding.crud.post.dto.UpdatePostDto;
 import onboarding.crud.post.service.PostService;
 import onboarding.crud.user.dto.UserDto;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +41,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> author = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> author = userService.getUserById((Long) _userId);
         if(author.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -54,11 +56,10 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getPost(@PathVariable Long id) {
-        Optional<PostDto> postDto = postService.getPostById(id);
-        if (postDto.isPresent()) {
-            return postDto.map(ResponseEntity::ok)
-                    .orElseGet(()->ResponseEntity.notFound().build());
-        } else {
+        try {
+            PostWithCommentsDto postWithCommentsDto = postService.getPostWithCommentsById(id);
+            return ResponseEntity.ok(postWithCommentsDto);
+        } catch (ResponseStatusException ex) {
             return ResponseEntity.status(404).body("게시글을 찾을 수 없습니다.");
         }
     }
@@ -70,7 +71,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> user = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> user = userService.getUserById((Long) _userId);
         if(user.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -98,7 +99,7 @@ public class PostController {
         if(_userId == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        Optional<UserDto> user = userService.getUserById(Long.parseLong(_userId.toString()));
+        Optional<UserDto> user = userService.getUserById((Long) _userId);
         if(user.isEmpty()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("알맞은 회원으로 로그인이 필요합니다.");
         }
