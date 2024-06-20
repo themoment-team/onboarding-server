@@ -1,14 +1,12 @@
 package onboarding.crud.post.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import onboarding.crud.post.LikedUsersConverter;
 import onboarding.crud.comment.entity.Comment;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
