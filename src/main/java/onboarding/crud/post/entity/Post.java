@@ -26,7 +26,7 @@ public class Post {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
     private Integer likes = 0;
-    // Stirng of user ids separated by comma
+    // String of user ids separated by comma
     // ex: 1, 2, 3
     @Convert(converter = LikedUsersConverter.class)
     private ArrayList<Long> likedUsers = new ArrayList<>();
